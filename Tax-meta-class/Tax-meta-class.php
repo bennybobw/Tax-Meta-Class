@@ -910,6 +910,7 @@ class Tax_Meta_Class {
   public function show_field_image( $field, $meta ) {
     $this->show_field_begin( $field, $meta );
     $html = wp_nonce_field( "at-delete-mupload_{$field['id']}", "nonce-delete-mupload_".$field['id'], false, false );
+    $html .= wp_nonce_field( "at-detach-mupload_{$field['id']}", "nonce-detach-mupload_".$field['id'], false, false );
     if (is_array($meta)){
       if(isset($meta[0]) && is_array($meta[0]))
       $meta = $meta[0];
@@ -919,11 +920,13 @@ class Tax_Meta_Class {
       $html .= "<input type='hidden' name='".$field['id']."[id]' id='".$field['id']."[id]' value='".$meta['id']."' />";
       $html .= "<input type='hidden' name='".$field['id']."[src]' id='".$field['id']."[src]' value='".$meta['src']."' />";
       $html .= "<input class='at-delete_image_button' type='button' rel='".$field['id']."' value='Delete Image' />";
+      $html .= "<input class='at-detach_image_button' type='button' rel='".$field['id']."' value='Detach Image' />";
     }else{
       $html .= "<span class='mupload_img_holder'></span>";
       $html .= "<input type='hidden' name='".$field['id']."[id]' id='".$field['id']."[id]' value='' />";
       $html .= "<input type='hidden' name='".$field['id']."[src]' id='".$field['id']."[src]' value='' />";
       $html .= "<input class='at-upload_image_button' type='button' rel='".$field['id']."' value='Upload Image' />";
+      $html .= "<input class='at-detach_image_button at-hidden' type='button' rel='".$field['id']."' value='Detach Image' />";
     }
     echo $html;
     $this->show_field_end( $field, $meta );
@@ -1932,6 +1935,7 @@ class Tax_Meta_Class {
           jQuery(".mupload_img_holder").find("img").remove();
           jQuery(".mupload_img_holder").next().next().next().removeClass('at-delete_image_button').addClass('at-upload_image_button');
           jQuery(".mupload_img_holder").next().next().next().val("Upload Image");
+          jQuery(".mupload_img_holder").next().next().next().next().addClass('at-hidden');
           jQuery(".mupload_img_holder").next().next().val('');
           jQuery(".mupload_img_holder").next().val('');
 

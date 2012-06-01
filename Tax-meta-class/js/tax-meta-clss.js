@@ -287,6 +287,7 @@ jQuery(document).ready(function($) {
           jQuery(this).append('<img src="' + jQuery(this).next().next().val() + '" style="height: 150px;width: 150px;" />');
           jQuery(this).next().next().next().val("Delete");
           jQuery(this).next().next().next().removeClass('at-upload_image_button').addClass('at-delete_image_button');
+          jQuery(this).next().next().next().next().removeClass('at-hidden');
         }
       }
     });
@@ -311,6 +312,8 @@ jQuery(document).ready(function($) {
       if ('success' == response.status){
         jQuery(t_button).val("Upload Image");
         jQuery(t_button).removeClass('at-delete_image_button').addClass('at-upload_image_button');
+        jQuery(t_button).next().addClass('at-hidden');
+        
         //clear html values
         jQuery(at_id).val('');
         jQuery(at_src).val('');
@@ -324,6 +327,18 @@ jQuery(document).ready(function($) {
     return false;
   });
   
+  //detach img button
+  jQuery('.at-detach_image_button').live('click', function(e){
+     var t_button = jQuery(this);
+     var field_id = t_button.attr("rel");
+     var at_id = t_button.prev().prev().prev().val('');
+     var at_src = t_button.prev().prev().val('');
+     jQuery(at_id).prev().html('')
+     t_button.prev().val('Upload Image').removeClass('at-delete_image_button').addClass('at-upload_image_button');
+     t_button.addClass('at-hidden');
+     load_images_muploader();
+     return false;
+  });
 
   //upload button
   var formfield1;
